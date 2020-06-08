@@ -42,6 +42,7 @@ namespace OOM_Seminarski_State
                 catch (Exception)
                 {
                     Console.WriteLine("Input error, please try again, use spaces to separate and commas for decimal numbers.");
+                    return 0;
                 }
                 Console.WriteLine("My state is:" +result.ToString()+" "+Operator.ToString()+" "+number.ToString());
                 result=Operate(number,result,haschanged);
