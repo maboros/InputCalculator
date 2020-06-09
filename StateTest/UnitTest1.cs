@@ -12,23 +12,23 @@ namespace StateTest
         public void InputCalculatorIsSetToAddOnStart()
         {
             InputCalculator calculator = new InputCalculator("asd");
-            Assert.AreEqual(calculator.Operator, OperatorState.Add);
+            Assert.AreEqual(calculator.currentState.GetType(), new Add().GetType());
         }
         [TestMethod]
         public void OperatorStateChangesBasedOnInput()
         {
             InputCalculator calculator = new InputCalculator("-");
             calculator.Calculate();
-            Assert.AreEqual(OperatorState.Subtract,calculator.Operator);
+            Assert.AreEqual(new Subtract().GetType(), calculator.currentState.GetType());
             calculator = new InputCalculator("+");
             calculator.Calculate();
-            Assert.AreEqual(OperatorState.Add,calculator.Operator);
+            Assert.AreEqual(new Add().GetType(), calculator.currentState.GetType());
             calculator = new InputCalculator("*");
             calculator.Calculate();
-            Assert.AreEqual(OperatorState.Multiply,calculator.Operator);
+            Assert.AreEqual(new Multiply().GetType(), calculator.currentState.GetType());
             calculator = new InputCalculator("/");
             calculator.Calculate();
-            Assert.AreEqual(OperatorState.Divide,calculator.Operator);
+            Assert.AreEqual(new Divide().GetType(), calculator.currentState.GetType());
         }
         [TestMethod]
         public void CalculatorDoesBasicCalculations()

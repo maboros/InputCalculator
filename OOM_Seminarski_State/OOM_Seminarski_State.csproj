@@ -43,9 +43,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Add.cs" />
+    <Compile Include="Divide.cs" />
     <Compile Include="InputCalculator.cs" />
+    <Compile Include="IOperate.cs" />
+    <Compile Include="Multiply.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Subtract.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

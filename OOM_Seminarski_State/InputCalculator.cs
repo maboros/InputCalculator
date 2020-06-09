@@ -7,22 +7,19 @@ using System.Threading.Tasks;
 
 namespace OOM_Seminarski_State
 {
-    public enum OperatorState
-    {
-        Add,
-        Subtract,
-        Multiply,
-        Divide
-    }
+
     public class InputCalculator
     {
-        
+        public IOperate currentState;
         public InputCalculator(string input)
         {
-            Operator = OperatorState.Add;
+            currentState = new Add();
             ProcessString(input);
         }
-
+        public void setState(IOperate state)
+        {
+            currentState = state;
+        }
         public float Calculate()
         {
             float result=0;
@@ -44,56 +41,19 @@ namespace OOM_Seminarski_State
                     Console.WriteLine("Input error, please try again, use spaces to separate and commas for decimal numbers.");
                     return 0;
                 }
-                Console.WriteLine("My state is:" +result.ToString()+" "+Operator.ToString()+" "+number.ToString());
-                result=Operate(number,result,haschanged);
+                Console.WriteLine("My state is:" +result.ToString()+" "+currentState.GetType().Name+" "+number.ToString());
+                try
+                {
+                    result = currentState.Operate(number, result, haschanged);
+                }
+                catch (DivideByZeroException)
+                {
+                    Console.WriteLine("Division by 0 is not allowed!!!");
+                    return 0;
+                }
                 haschanged = true;
             }
             Console.WriteLine("My result is:"+result);
-            return result;
-        }
-
-        private float Operate(float number, float result,bool haschanged)
-        {
-            switch (Operator)
-            {
-                case OperatorState.Add:
-                    {
-                        result += number;
-                        break;
-                    }
-                case OperatorState.Subtract:
-                    {
-                        result -= number;
-                        break;
-                    }
-                case OperatorState.Multiply:
-                    {
-                        if (haschanged == false)
-                        {
-                            result = number;
-                            Console.WriteLine("No number beforehand so number is set to first given.");
-                            break;
-                        }
-                        result *= number;
-                        break;
-                    }
-                case OperatorState.Divide:
-                    {
-                        if (haschanged == false)
-                        {
-                            result = number;
-                            Console.WriteLine("No number beforehand so number is set to first given.");
-                            break;
-                        }
-                        if (result == 0)
-                        {
-                            Console.WriteLine("Division by 0 is not allowed!!!");
-                            return 0;
-                        }
-                        result /= number;
-                        break;
-                    }
-            }
             return result;
         }
 
@@ -102,30 +62,27 @@ namespace OOM_Seminarski_State
             switch (item)
             {
                 case "+":
-                    Operator = OperatorState.Add;
+                    setState(new Add());
                     break;
                 case "-":
-                    Operator = OperatorState.Subtract;
+                    setState(new Subtract());
                     break;
                 case "*":
-                    Operator = OperatorState.Multiply;
+                    setState(new Multiply());
                     break;
                 case "/":
-                    Operator = OperatorState.Divide;
+                    setState(new Divide());
                     break;
                 default:
                     Debug.Assert(false);
                     break;
             }
         }
-
         private void ProcessString(string input)
         {
             this.input=input.Split(' ');
             Console.WriteLine("Your input is:"+input);
         }
-
-        public OperatorState Operator;
         private string[] input;
     }
 }
