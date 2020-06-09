@@ -16,7 +16,7 @@ namespace OOM_Seminarski_State
             currentState = new Add();
             ProcessString(input);
         }
-        public void setState(IOperate state)
+        private void setState(IOperate state)
         {
             currentState = state;
         }
